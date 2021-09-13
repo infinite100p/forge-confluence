@@ -1,0 +1,8 @@
+node_modules/*
+.DS_Store/*
+trash/
+cloud/brainstorm.txt
+cloud/src/members.jsx
+cloud/src/user-space.js
+cloud/imgs/
+server/.env

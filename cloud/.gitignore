@@ -1,0 +1,8 @@
+./brainstorm.txt
+/node_modules/
+/dist/
+/.vscode/
+.idea
+.DS_Store
+./members.jsx
+./user-space.js

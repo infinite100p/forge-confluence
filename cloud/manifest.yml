@@ -1,0 +1,38 @@
+modules:
+  # jira:issuePanel:
+  #   - key: jira-hello-world-hello-world-panel
+  #     function: main
+  #     title: Hello World Jira
+  #     icon: https://developer.atlassian.com/platform/forge/images/icons/issue-panel-icon.svg
+
+  confluence:spacePage:
+    - key: team-users-space
+      function: space-main
+      title: Team Space
+      route: 'team'
+      icon: https://developer.atlassian.com/platform/forge/images/icons/issue-panel-icon.svg
+
+  function:
+    # - key: main
+    #   handler: index.run    
+    - key: space-main
+      handler: space.run
+
+app:
+  id: ari:cloud:ecosystem::app/879a6a75-24cf-436c-aa7d-6d0b846c7d19
+permissions:
+  scopes:
+    - 'read:jira-work'
+    - 'read:me'
+    - 'write:jira-work'
+    - 'storage:app'
+    - 'write:confluence-space'
+    - 'read:confluence-groups'
+    - 'write:confluence-groups'
+    - 'manage:confluence-configuration'
+    - 'write:confluence-file'
+  external:
+    fetch:
+      backend:
+        - backend.heyadriver.com
+        - api.atlassian.com/users/{account_id}/manage/profile
