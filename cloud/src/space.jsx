@@ -1,4 +1,4 @@
-import ForgeUI, {render, useState, useEffect, useProductContext, Fragment, Text, Button, ButtonSet,  SpacePage, Avatar, User, UserGroup, Tooltip, Form, Table, Head, Cell, Row, TextArea, StatusLozenge, Badge, Link, Strong, Image, Heading, Toggle} from '@forge/ui';
+import ForgeUI, {render, useState, useEffect, useProductContext, Fragment, Text, Button, ButtonSet,  SpacePage, Avatar, User, UserGroup, Tooltip, Form, Table, Head, Cell, Row, TextArea, StatusLozenge, Badge, Link, Strong, Image, Heading, Toggle, SectionMessage} from '@forge/ui';
 import {getGroups, getGroupMembers, getAccountIds, getMemberAccountIds, getSpace} from './getters.js';
 // import {renderMembers} from './members.jsx'
 // import '../node_modules/font-awesome/css/font-awesome.min.css'; 
@@ -59,13 +59,15 @@ const App = () => {
             // profiles.push(userprofile);
             // const email = await getEmailAddress(id);
         })
+        
         setUserProfiles(profiles);
+        setGroupMembers(members);
         // <Image src="https://media.giphy.com/media/jUwpNzg9IcyrK/source.gif" alt="homer"/>
     }
 
-    const renderData = () => {
+    const renderData = async () => {
         const [ids, setIds] = useState();
-          useEffect(async () => {
+          // useEffect(async () => {
             // if (groupMembers.results.length > 0) {
             if (groupMembers.length > 0) {
                 setIds(await getAccountIds(groupMembers.results));
@@ -73,7 +75,7 @@ const App = () => {
                 renderHeader(groupMembers, groupName);
                 // renderUsers(ids);
             } 
-          }, [groupMembers]);   
+          // }, [groupMembers]);   
             // if (accountIds.length > 0) {
               return <Text content={`RenderData Account Id #s: ${JSON.stringify(accountIds)}`} />
             // }
@@ -199,7 +201,7 @@ const App = () => {
     const nightTime = [7, 4]; // 7pm - 4am
 
     /* TODO: emojis -> HTML entities ? */
-    const memos = ['Bathroom break 💩', 'Coffee break ☕️', 'Out sick 🤒', 'Out of office', `📵 In a meeting - I'll be back in ${format(timeRemaining)} ${measureofTime}!`, `📵 On a client call  - I'll be back in ${format(timeRemaining)} ${measureofTime}!`, 'PTO - vacay (see my calendar for availability) 😎 🏖', 'business trip 💼 ✈️', 'Off work ✌️', 'In the zone - in deep concentration 👨🏻🧘🏻‍♀️'];  
+    const memos = ['Bathroom break 💩', 'Coffee break ☕️', 'Out sick 🤒', 'Out of office', `📵 In a meeting - I'll be back in ${format(timeRemaining)} ${measureofTime}!`, `📵 On a client call  - I'll be back in ${format(timeRemaining)} ${measureofTime}!`, 'PTO - vacay 😎 🏖 (see my calendar for availability)', 'business trip 💼 ✈️', 'Off work ✌️', 'In the zone - in deep concentration 👨🏻🧘🏻‍♀️'];  
 
     // placeholder method - needs revision ofc
     function format(timeinSeconds) {
@@ -264,15 +266,22 @@ const App = () => {
         </Table>          
     )}
 
-    const renderHeader = (groupMembers, groupName) => (
-          <Heading size="medium">
-                <Text><Strong>{groupMembers.length}</Strong> members in {groupName}</Text>
-          </Heading>         
-    )
+    const renderHeader = (groupMembers, groupName) => {
+        if (groupMembers.length > 0) {
+          return (<SectionMessage title="Heading" appearance="info">
+              <Heading size="medium">
+                    <Text><Strong>{groupMembers.length}</Strong> members in {groupName}</Text>
+              </Heading>         
+          </SectionMessage>)
+        }
+    }
 
-    const handleProfileClick = async (navItems, groupName) => {
+    const handleProfileClick = async (navItems, groupName) => {      
+        setGroupMembers(await getGroupMembers(groupName));  
+        setSelectedView(navItems[0]);        
+        // await renderData();        
         await createUserProfiles(groupName);
-        setSelectedView(navItems[0]);
+        renderHeader(groupMembers, groupName);        
     }   
     const handleCompanyTreeClick = async (navItems) => {
         await createUserProfiles(groupName);
@@ -296,18 +305,17 @@ const App = () => {
     return (        
         <Fragment>                                    
          <ButtonSet>
+             {/* <Button text={selectedView == navItems[0] ? `${JSON.stringify(groupMembers.length)} Members` : 'Members'} appearance={buttonStyle(0)} onClick={async () => { await handleProfileClick(navItems, groupName)}} />*/}
               <Button text={navItems[0]} appearance={buttonStyle(0)} onClick={async () => { await handleProfileClick(navItems, groupName)}} />
 
               {/* company structure, tree, hierarchy, "corporate ladder" */}
               <Button text={navItems[1]} appearance={buttonStyle(1)} onClick={async () => { await handleCompanyTreeClick(navItems)}} />
-
+              
+              {/*career trajectory - looking ahead*/}
               <Button text={navItems[2]} appearance={buttonStyle(2)} onClick={async () => { await handleProgressClick(navItems)}} />
 
-              {/*career trajectory - looking ahead*/}
-              <Button text={navItems[3]} appearance={buttonStyle(3)} onClick={async () => { await handleProfileClick(navItems)}} />
-
-              <Button text={navItems[4]} appearance='default' onClick={async () => { await handleMinutesClick(navItems)}} />
-              <Button text={navItems[5]} appearance='default' onClick={async () => { await handleTrainingClick(navItems)}} />
+              <Button text={navItems[3]} appearance='default' onClick={async () => { await handleMinutesClick(navItems)}} />
+              <Button text={navItems[4]} appearance='default' onClick={async () => { await handleTrainingClick(navItems)}} />
 
             </ButtonSet>
 
@@ -332,11 +340,10 @@ const App = () => {
                 
                 {renderUserProfiles(groupName, userProfiles)}                
                 
-                <Text content={`groupMembers: ${JSON.stringify(groupMembers)}`} />                                                  
+                                                                
                {/* <Text content={`User Profile: ${JSON.stringify(async() => {await getUserProfile('61331ad944c8ed0068ae6050')})}`} /> */ }
 
-                <Text content={`IDs: ${JSON.stringify(accountIds)}`} />
-                <Text content={`IDs length: ${accountIds.length}`} />
+
             </Fragment>)
         }
              {/*<Text content={`Group members: ${JSON.stringify(groupMembers)}`} />*/}
