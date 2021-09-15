@@ -1,11 +1,15 @@
+
 request - ability to create new User via API (sandbox)
-API should support new user account creation & deletion 
+API should support new user account creation & deletion (individually & bulk)
 - dummy user accounts for development purposes under a single email address
+- capped at 8-10 user accounts under free plan
+
 
 Jira - creating new subtasks resets all previously set statuses for other subtasks 
 ^ bug or feature?
 
-can't change email - tested in FireFox (hardened + default), Chromium
+When adding a new subtask to a list of existing subtasks, all status fields revert to ‘To Do’, including those that are ‘In Progress’ and ‘Done’
+Have to manually correct each one - okay for just a handful but inconvenient if there are many
 
 limited styling + positioning capabilities, flexibility, & functionality with Cloud
 can't set table size, cell width & height (outside of custom UI scope?)

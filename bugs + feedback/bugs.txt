@@ -1,0 +1,18 @@
+  
+  Atlassian User Management REST API - restricted permissions
+/* 403 Forbidden Error - can't proceed
+  Must verify domain ownership - https://admin.atlassian.com/o/402470k8-c8j1-1k1j-7395-9d4bk54j785j/domains
+  */
+  
+  Calendly GET Events List - Server Request
+  404 Error - Resource Not Found
+  How to pass required user / organization param??
+
+  can't change registered account email address - cookies/cache issue?
+  tested in FireFox (hardened + default) & Chromium - incognito
+
+  TODO: 
+  create other views & separate into modules
+  replace hard-coded values with user data
+
+

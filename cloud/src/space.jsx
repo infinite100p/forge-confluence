@@ -3,6 +3,12 @@ import {getGroups, getGroupMembers, getAccountIds, getMemberAccountIds, getSpace
 // import {renderMembers} from './members.jsx'
 // import '../node_modules/font-awesome/css/font-awesome.min.css'; 
 
+/* 
+   Note to any dev who sees this code: apologies for the spaghetti code. 
+   Code needs to be cleaned up, reformatted, and refactored with comments.
+   I'm not a developer so idk how to produce professional, clean code. 
+   I just know that it's an ugly sight & a real pain to read aha sorry!
+*/
 const App = () => {
     const context = useProductContext();
     const { accountId, spaceKey, contentId, extensionContext } = context;
@@ -37,8 +43,9 @@ const App = () => {
             const availability = ''; 
             let status = setStatusAtRandom(member);
             let timezone = Math.random() < 0.5 ? '☀️' : '🌚'; // temp placeholder
-            // let jobTitle = selectRandomFrom(jobTitlesList);                                  
-            let jobTitle = jobTitlesList[index];    // fixed        
+            let jobTitle = selectRandomFrom(jobTitlesList);                                  
+            // let jobTitle = jobTitlesList[index];    // fixed        
+            let startDate = '';                      
             let memo = selectRandomFrom(memos);                      
 
             profiles.push(
